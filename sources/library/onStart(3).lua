@@ -10,7 +10,7 @@ function RenderScreen(currentScreenObj,
     configOptions[2]    = machineName
     configOptions[3]    = productName
     configOptions[4]    = otherComments
-    configOptions[5]    = statusCode
+    configOptions[5]    = 2 -- statusCode 
     configOptions[6]    = product_iconPath
 
     -- R  G  B
@@ -155,15 +155,15 @@ function RenderScreen(currentScreenObj,
     ]]
 
     --get data to publish (3)
-    ScreenTable[3]      = [[
-
-        local this_machineName = ']] .. configOptions[2] .. [['
-        local this_productName = ']] .. configOptions[3] .. [['
-        local this_productIcon_URL = ']] .. configOptions[6] .. [['
-        local this_otherComments = ']] .. configOptions[4] .. [['
-        local this_statusCode = getStatusCodeWord(]] .. configOptions[5] .. [[)
-
-    ]]
+     ScreenTable[3]      = [[ ]]
+-- 
+--         local this_machineName = ']] .. configOptions[2] .. [['
+--         local this_productName = ']] .. configOptions[3] .. [['
+--         local this_productIcon_URL = ']] .. configOptions[6] .. [['
+--         local this_otherComments = ']] .. configOptions[4] .. [['
+--         local this_statusCode = getStatusCodeWord(]] .. configOptions[5] .. [[)
+-- 
+--     ]]
 
     -- header and footer (4)
     ScreenTable[4]      = [[
@@ -235,7 +235,7 @@ function RenderScreen(currentScreenObj,
         configOptions[1].setRenderScript(screenTemplate)
     end     -- function ScreenRender
 
-    ScreenRender(configOptions)
+    -- ScreenRender(configOptions)
 end     -- function renderScreen
 
 ---

@@ -1,6 +1,11 @@
 -- library.onStart(1)
 -- define support functions and globals for use elsewhere
 productData = {}
+productData[1] = {}
+productData[2] = {}
+productData[3] = {}
+productData[4] = {}
+productData[5] = {}
 
 PrecisionDigits      = 2
 PrecisionValue       = 10 ^ PrecisionDigits
@@ -47,6 +52,22 @@ function screenPulseTick()
     AnimationPulseIndex = AnimationPulseIndex + 1
     if AnimationPulseIndex > #ScreenPulseTable then AnimationPulseIndex = 1 end
     return ScreenPulseTable[AnimationPulseIndex]
+end
+
+---
+function string:split( inSplitPattern, outResults )
+  if not outResults then
+    outResults = { }
+  end
+  local theStart = 1
+  local theSplitStart, theSplitEnd = string.find( self, inSplitPattern, theStart )
+  while theSplitStart do
+    table.insert( outResults, string.sub( self, theStart, theSplitStart-1 ) )
+    theStart = theSplitEnd + 1
+    theSplitStart, theSplitEnd = string.find( self, inSplitPattern, theStart )
+  end
+  table.insert( outResults, string.sub( self, theStart ) )
+  return outResults
 end
 
 --- eof ---
