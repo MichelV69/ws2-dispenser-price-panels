@@ -2,47 +2,35 @@
 -- define key functions for use elsewhere
 ---
 
-
----
-function UpdateScreens(lcl_ScreenList, lcl_productData)
-    for i = 1, #lcl_ScreenList, 1 do
-
-        -- take apart the screen's device name to get the position and product ID
+function UpdateScreens(screenListTable, productDataTable)
+    for i = 1, #screenListTable do
+        --Table take apart the screen's device name to get the position and product ID
         local screenPosition = top
         local productID = -1
         local foundMatch = {}
-        local screenName = lcl_ScreenList[i].getName() 
+        local screenName = screenListTable[i]
 
         -- now that we have the productID, check it against the productData set for a match
         local foundMatch = screenName:split(".")
 
+         >> FIX ... skipped a step!
+
         if #foundMatch then
-        -- IF we get a match, API-pull the product data to pass to the screen Renders
-
-        -- IF we get a match, do some useful calculations before screen render
-
-        -- IF we get a match, RenderScreen(top)
-
-        -- IF we get a match, RenderScreen(bottom)
-
+            screenPosition = foundMatch[1]
+            productID = foundMatch[2]
+            local itemDataTable = System.getItem(productID)
+            local batchPrice = pricePerUnit * unitsPerSale
+            if batchPrice => 0 then
+                RenderScreen(screenPosition, productDataTable, itemDataTable, batchPrice)
+            end
         end
-
-
-
-       -- RenderScreen(
-       --     lcl_ScreenList[i],
-       --     lcl_productData[i].somedata,
-       --     lcl_productData[i].somedatatoo,
-       --     lcl_productData[i].otherComments,
-       --     lcl_productData[i].status_code,
-       --     lcl_productData[i].product_iconPath
-       -- )
     end
-end --- function
+end --- function UpdateScreens
 
 ---
 function AbbreviateName(long_name_string)
     return long_name_string:gsub('Uncommon', 'UNC'):gsub('Advanced', 'ADV')
-end
+end --- function AbbreviateName
 
 --- eof ---
+
