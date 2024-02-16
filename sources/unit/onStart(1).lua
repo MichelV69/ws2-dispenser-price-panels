@@ -1,5 +1,11 @@
 --- unit.onStart(1)
---- # USER DATA 
+--- # USER DATA
+
+--- --- # screen presentation
+--- --- # feel free to change these values to something you prefer
+local userFontChoice = "default"  --export Set the screen display font
+local userFontSizeChoice = "default" --export Set the screen display font size
+
 --- --- # add an item per set of dispenser screens to maintain.
 --- --- # any entry with an id, price or units of 0 is ignored / turned off.
 --- --- # any entry with an id of "1793858647" ("Blueprints") requires the "ProductName" field to be filled in.
@@ -26,6 +32,6 @@ productData[5].unitsPerSale = 0
 
 --- # END of USER DATA Section
 --- # Changing anything else anywhere else will break this app
-boot(productData)
+boot(productData, userFontChoice, userFontSizeChoice)
 --- eof ---
 

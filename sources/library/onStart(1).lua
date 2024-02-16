@@ -1,5 +1,9 @@
 -- library.onStart(1)
 -- define support functions and globals for use elsewhere
+
+FontName = RefrigeratorDeluxe
+FontSize = 14
+
 productData          = {}
 productData[1]       = {}
 productData[2]       = {}
