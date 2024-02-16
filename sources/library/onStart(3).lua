@@ -2,16 +2,17 @@
 -- define screen layout for use elsewhere
 ---
 function RenderScreen(thisScreen, screenPosition, productDataRecord, itemDataTable)
-    local ScreenTable   = {}
+    local ScreenTable                        = {}
+    productDataRecord.locDisplayNameWithSize = AbbreviateName(productDataRecord.locDisplayNameWithSize)
 
     -- R  G  B
-    local greenText     = '0.5, 1.0, 0.5'
-    local blueText      = '0.5, 0.5, 1.0'
-    local orangeText    = '1.0, 0.5, 0.5'
-    local simpleBlack   = '0.2, 0.2, 0.2'
+    local greenText                          = '0.5, 1.0, 0.5'
+    local blueText                           = '0.5, 0.5, 1.0'
+    local orangeText                         = '1.0, 0.5, 0.5'
+    local simpleBlack                        = '0.2, 0.2, 0.2'
 
     --Parameters (1)
-    ScreenTable[1]      = [[
+    ScreenTable[1]                           = [[
         local FontName=]] .. FontName .. [[
         local FontSize=]] .. FontSize .. [[
         local S_Title="]] .. WS2_Software.title .. [["
@@ -22,7 +23,7 @@ function RenderScreen(thisScreen, screenPosition, productDataRecord, itemDataTab
         ]]
 
     -- general layout(2)
-    ScreenTable[2]      = [[
+    ScreenTable[2]                           = [[
         --Layers
         local layers={}
         layers["background"]  = createLayer()
@@ -112,16 +113,15 @@ function RenderScreen(thisScreen, screenPosition, productDataRecord, itemDataTab
         setDefaultShadow(layers["footer_text"], Shape_Text, shadowPX/2, ]] .. greenText .. [[, 1)
         setDefaultShadow(layers["images"], Shape_Image, shadowPX*2, ]] .. simpleBlack .. [[, 1)
     ]]
-
-    --get data to publish (3)
-    ScreenTable[3]      = [[
+    --get data to publish (3 & 4)
+    ScreenTable[3]                           = [[
          local this_screenPosition = ']] .. screenPosition .. [['
          local this_productDataRecord = ']] .. productDataRecord .. [['
          local this_itemDataTable = ']] .. itemDataTable .. [[)
      ]]
 
     -- header and footer (4)
-    ScreenTable[4]      = [[
+    ScreenTable[4]                           = [[
       local vpos = 1
       publish_to = getRowColsPosition(layout, 1, vpos)
       textMessage = S_Title .. " v" .. S_Version .. " (" .. S_Revision .. ")"
@@ -135,40 +135,41 @@ function RenderScreen(thisScreen, screenPosition, productDataRecord, itemDataTab
       addText(layers["footer_text"], FontTextSmaller, textMessage, publish_to.x_pos, publish_to.y_pos)
     ]]
 
-    --- format data for display
-    ScreenTable[5]      = [[
-            local productIcon = loadImage(this_productIcon_URL)
+    --- format data for display (5)
+    ScreenTable[5]                           = [[
+
+            local productIcon = loadImage(this_productDataRecord.iconPath)
             addImage(layers["images"], productIcon, layout.margin_left, layout.margin_top, layout.margin_left + layout.square_size , layout.margin_top + layout.square_size )
 
             eightCols = tidy(layout.cols_wide/8)
             row = layout.rows_high /3
 
             publish_to = getRowColsPosition(layout, eightCols, row)
-            textMessage = this_machineName
+            textMessage = "blank1"
             addText(layers["report_text"], FontTextBigger, textMessage, publish_to.x_pos, publish_to.y_pos)
 
             horiz_offset = 1
             vert_offset = 2
             publish_to = getRowColsPosition(layout, eightCols * horiz_offset, row + vert_offset)
 
-            textMessage = this_statusCode
+            textMessage = "blank2"
             addText(layers["report_text"], FontTextBigger, textMessage, publish_to.x_pos, publish_to.y_pos)
 
             horiz_offset = 2
             vert_offset = 3
             publish_to = getRowColsPosition(layout, eightCols * horiz_offset, row + vert_offset)
-            textMessage = this_productName
+            textMessage = this_productDataRecord.locDisplayNameWithSize
             addText(layers["report_text"], FontText, textMessage, publish_to.x_pos, publish_to.y_pos)
 
             horiz_offset = 2
             vert_offset = 4
             publish_to = getRowColsPosition(layout, eightCols * horiz_offset, row + vert_offset)
-            textMessage = this_otherComments
+            textMessage = "blank3"
             addText(layers["report_text"], FontText, textMessage, publish_to.x_pos, publish_to.y_pos)
             ]]
 
     --- tick-timer, etc (6)
-    ScreenTable[6]      = [[
+    ScreenTable[6]                           = [[
       col = tidy(layout.cols_wide/3)
       row = layout.rows_high - 4
       publish_to = getRowColsPosition(layout, col, row)
@@ -179,12 +180,13 @@ function RenderScreen(thisScreen, screenPosition, productDataRecord, itemDataTab
       ]]
 
     --Animation (7)
-    ScreenTable[7]      = [[
+    ScreenTable[7]                           = [[
         requestAnimationFrame(5)
         ]]
 
     --RENDER
-    function ScreenRender(configOptions)
+    function ScreenRender(thisScreen)
+        thisScreen.clear()
         local screenTemplate = table.concat(ScreenTable)
         thisScreen.setRenderScript(screenTemplate)
     end -- function ScreenRender

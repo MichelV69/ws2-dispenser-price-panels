@@ -25,16 +25,20 @@ function UpdateScreens(screenListTable, productDataTable)
         local productDataRecord = {}
         if #screenPosition and
             #productID then
+            console("might have foundMatch")
             for i = 1, #productDataTable do
                 if productDataTable[i].ID == productID then
+                    console("DID foundMatch")
                     foundMatch = true
                     productDataRecord = productDataTable[i]
                 end
             end
         end
 
+        local batchPrice = -1
         if foundMatch then
             local itemDataTable = system.getItem(productID)
+            batchPrice = productDataRecord.pricePerUnit * productDataRecord.unitsPerSale
             if batchPrice >= 0 then
                 RenderScreen(thisScreen, screenPosition, productDataRecord, itemDataTable)
             end
