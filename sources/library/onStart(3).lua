@@ -1,17 +1,8 @@
 -- library.onStart(3)
 -- define screen layout for use elsewhere
 ---
-function RenderScreen(currentScreenObj,
-                      machineName, productName, otherComments, statusCode, product_iconPath)
+function RenderScreen(thisScreen, screenPosition, productDataRecord, itemDataTable)
     local ScreenTable   = {}
-    local configOptions = {}
-
-    configOptions[1]    = currentScreenObj
-    configOptions[2]    = machineName
-    configOptions[3]    = productName
-    configOptions[4]    = otherComments
-    configOptions[5]    = 2 -- statusCode 
-    configOptions[6]    = product_iconPath
 
     -- R  G  B
     local greenText     = '0.5, 1.0, 0.5'
@@ -62,42 +53,10 @@ function RenderScreen(currentScreenObj,
             end --- function getRowColsPosition
 
         ---
-        function getStatusCodeWord(statusCode)
-            local statusCodeTable = {}
-            statusCodeTable[1] = {state="Stopped"}
-            statusCodeTable[2] = {state="Pending"}
-            statusCodeTable[3] = {state="Jammed"}
-            statusCodeTable[4] = {state="Storage Full"}
-            statusCodeTable[5] = {state="No Output"}
-            statusCodeTable[6] = {state="Running"}
-            statusCodeTable[7] = {state="No Schemas"}
-            return statusCodeTable[statusCode].state
-            end  --- function getStatusCodeWord
-
-        ---
-        function drawStatusBorder(statusCode, layers, layout)
+        function drawBorder(layers, layout)
             -- draw two boxes, one inside the other
             rounding_px = 18
-
-            -- status color
-            stillNeedDefault = true
-
-            if tonumber(statusCode) == 2
-              or tonumber(statusCode) == 6 then
-                setDefaultFillColor(layers["shading"], Shape_BoxRounded, 0, 1, 0, 1)
-                stillNeedDefault = false
-                end
-            if tonumber(statusCode) == 3
-               or tonumber(statusCode) == 4
-               or tonumber(statusCode) == 5
-               or tonumber(statusCode) == 7 then
-                setDefaultFillColor(layers["shading"], Shape_BoxRounded, 1, 0, 0, 1)
-                stillNeedDefault = false
-                end
-
-            if stillNeedDefault then
-                setDefaultFillColor(layers["shading"], Shape_BoxRounded, 0.2, 0.2, 0.0, 1)
-                end
+            setDefaultFillColor(layers["shading"], Shape_BoxRounded, 0, 1, 0, 1)
 
             topLeftCorner_X = layout.col_width
             topLeftCorner_Y = layout.row_height
@@ -155,15 +114,11 @@ function RenderScreen(currentScreenObj,
     ]]
 
     --get data to publish (3)
-     ScreenTable[3]      = [[ ]]
--- 
---         local this_machineName = ']] .. configOptions[2] .. [['
---         local this_productName = ']] .. configOptions[3] .. [['
---         local this_productIcon_URL = ']] .. configOptions[6] .. [['
---         local this_otherComments = ']] .. configOptions[4] .. [['
---         local this_statusCode = getStatusCodeWord(]] .. configOptions[5] .. [[)
--- 
---     ]]
+    ScreenTable[3]      = [[
+         local this_screenPosition = ']] .. screenPosition .. [['
+         local this_productDataRecord = ']] .. productDataRecord .. [['
+         local this_itemDataTable = ']] .. itemDataTable .. [[)
+     ]]
 
     -- header and footer (4)
     ScreenTable[4]      = [[
@@ -210,7 +165,6 @@ function RenderScreen(currentScreenObj,
             publish_to = getRowColsPosition(layout, eightCols * horiz_offset, row + vert_offset)
             textMessage = this_otherComments
             addText(layers["report_text"], FontText, textMessage, publish_to.x_pos, publish_to.y_pos)
-
             ]]
 
     --- tick-timer, etc (6)
@@ -221,7 +175,7 @@ function RenderScreen(currentScreenObj,
       textMessage = notDeadYet
       addText(layers["report_text"], FontText, textMessage, publish_to.x_pos, publish_to.y_pos)
 
-      drawStatusBorder(]] .. configOptions[5] .. [[, layers, layout)
+      drawBorder(layers, layout)
       ]]
 
     --Animation (7)
@@ -233,10 +187,10 @@ function RenderScreen(currentScreenObj,
     function ScreenRender(configOptions)
         local screenTemplate = table.concat(ScreenTable)
         configOptions[1].setRenderScript(screenTemplate)
-    end     -- function ScreenRender
+    end -- function ScreenRender
 
     -- ScreenRender(configOptions)
-end     -- function renderScreen
+end -- function renderScreen
 
 ---
 --- eof ---

@@ -7,21 +7,36 @@ function UpdateScreens(screenListTable, productDataTable)
         --Table take apart the screen's device name to get the position and product ID
         local screenPosition = top
         local productID = -1
-        local foundMatch = {}
-        local screenName = screenListTable[i]
+        local screenDataTable = {}
+        local thisScreen = screenListTable[i]
 
         -- now that we have the productID, check it against the productData set for a match
-        local foundMatch = screenName:split(".")
+        screenDataTable = thisScreen.getName():split(".")
+        local sdt_name = 1
+        local sdt_itemID = 2
+        screenPosition = screenDataTable[sdt_name]
+        productID = screenDataTable[sdt_itemID]
 
-         >> FIX ... skipped a step!
+        -- productData[5].ID = 1793858647 -- Blueprints
+        -- productData[5].ProductName = "RPG-3400 Merchant Prince"
+        -- productData[5].pricePerUnit = 0.00
+        -- productData[5].unitsPerSale = 0
+        local foundMatch = false
+        local productDataRecord = {}
+        if #screenPosition and
+            #productID then
+            for i = 1, #productDataTable do
+                if productDataTable[i].ID == productID then
+                    foundMatch = true
+                    productDataRecord = productDataTable[i]
+                end
+            end
+        end
 
-        if #foundMatch then
-            screenPosition = foundMatch[1]
-            productID = foundMatch[2]
-            local itemDataTable = System.getItem(productID)
-            local batchPrice = pricePerUnit * unitsPerSale
-            if batchPrice => 0 then
-                RenderScreen(screenPosition, productDataTable, itemDataTable, batchPrice)
+        if foundMatch then
+            local itemDataTable = system.getItem(productID)
+            if batchPrice >= 0 then
+                RenderScreen(thisScreen, screenPosition, productDataRecord, itemDataTable)
             end
         end
     end
@@ -33,4 +48,3 @@ function AbbreviateName(long_name_string)
 end --- function AbbreviateName
 
 --- eof ---
-
