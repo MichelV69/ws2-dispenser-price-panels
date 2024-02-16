@@ -4,8 +4,8 @@ function boot( lcl_productData )
 WS2_Software = {}
 WS2_Software.id = "dispenser_price_board"
 WS2_Software.title = "Dispenser Price Board"
-WS2_Software.version = "0.0.10"
-WS2_Software.revision = "15 Feb 2024 09h21 AST"
+WS2_Software.version = "0.0.11"
+WS2_Software.revision = "16 Feb 2024 09h21 AST"
 WS2_Software.author = "Michel Vaillancourt <902pe_gaming@wolfstar.ca>"
 
 system.print("\n --------------- \n")
@@ -26,7 +26,7 @@ DatabankList      = {}
 for i = 1, #Slotlist, 1 do
     local thisSlot = Slotlist[i]
 
-    system.print(WS2_Software.id .. ": found [" .. thisSlot.getClass() .. "] in Slot [" .. i .. "].")
+    console(WS2_Software.id .. ": found [" .. thisSlot.getClass() .. "] in Slot [" .. i .. "].")
 
     if thisSlot.getClass() == "ScreenUnit" then
         table.insert(ScreenList, thisSlot)
@@ -39,13 +39,13 @@ end
 if #ScreenList == 0 then
     error "No Screen connected.  Cannot continue."
 else
-    system.print(WS2_Software.id .. ": found [" .. #ScreenList .. "] connected Screens.")
+    console(WS2_Software.id .. ": found [" .. #ScreenList .. "] connected Screens.")
 end
 
 -- if #DatabankList == 0 then
 --    error "No databank connected.  Cannot continue."
 -- else
---     system.print(WS2_Software.id .. ": found [" .. #DatabankList .. "] connected Databanks.")
+--     console(WS2_Software.id .. ": found [" .. #DatabankList .. "] connected Databanks.")
 -- end
 
 for i = 1, #ScreenList, 1 do

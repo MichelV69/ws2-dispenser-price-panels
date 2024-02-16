@@ -186,10 +186,10 @@ function RenderScreen(thisScreen, screenPosition, productDataRecord, itemDataTab
     --RENDER
     function ScreenRender(configOptions)
         local screenTemplate = table.concat(ScreenTable)
-        configOptions[1].setRenderScript(screenTemplate)
+        thisScreen.setRenderScript(screenTemplate)
     end -- function ScreenRender
 
-    -- ScreenRender(configOptions)
+    ScreenRender(thisScreen)
 end -- function renderScreen
 
 ---
