@@ -11,7 +11,8 @@ function UpdateScreens(screenListTable, productDataTable)
         local thisScreen = screenListTable[i]
 
         -- now that we have the productID, check it against the productData set for a match
-        screenDataTable = thisScreen.getName():split(".")
+        screenDataTable = splitStringBy(".", thisScreen.getName())
+        console("thisScreen.getName(): [" .. thisScreen.getName() .. "]")
         local sdt_name = 1
         local sdt_itemID = 2
         screenPosition = screenDataTable[sdt_name]
@@ -27,10 +28,12 @@ function UpdateScreens(screenListTable, productDataTable)
             #productID then
             console("might have foundMatch")
             for i = 1, #productDataTable do
-                if productDataTable[i].ID == productID then
+                console(">>" .. productDataTable[i].ID .. "|" .. productID .. "<<")
+                if tonumber(productDataTable[i].ID) == tonumber(productID) then
                     console("DID foundMatch")
-                    foundMatch = true
                     productDataRecord = productDataTable[i]
+                    foundMatch = true
+                    i = #productDataTable + 2
                 end
             end
         end
@@ -48,7 +51,9 @@ end --- function UpdateScreens
 
 ---
 function AbbreviateName(long_name_string)
+    if long_name_string == nil then long_name_string = " " end
     return long_name_string:gsub('Uncommon', 'UNC'):gsub('Advanced', 'ADV')
 end --- function AbbreviateName
 
 --- eof ---
+

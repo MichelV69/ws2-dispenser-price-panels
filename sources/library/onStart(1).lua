@@ -1,8 +1,8 @@
 -- library.onStart(1)
 -- define support functions and globals for use elsewhere
 
-FontName = RefrigeratorDeluxe
-FontSize = 14
+FontName             = RefrigeratorDeluxe
+FontSize             = 14
 
 productData          = {}
 productData[1]       = {}
@@ -59,24 +59,17 @@ function screenPulseTick()
 end
 
 ---
-function string:split(inSplitPattern, outResults)
-    if not outResults then
-        outResults = {}
+function splitStringBy(demark, inString)
+    local fields = {}
+    for field in inString:gmatch('([^' .. demark .. ']+)') do
+        fields[#fields + 1] = field
     end
-    local theStart = 1
-    local theSplitStart, theSplitEnd = string.find(self, inSplitPattern, theStart)
-    while theSplitStart do
-        table.insert(outResults, string.sub(self, theStart, theSplitStart - 1))
-        theStart = theSplitEnd + 1
-        theSplitStart, theSplitEnd = string.find(self, inSplitPattern, theStart)
-    end
-    table.insert(outResults, string.sub(self, theStart))
-    return outResults
+    return fields
 end
 
 ---
 function console(messageTxt)
-    system.print(messageTxt)
+    system.print(WS2_Software.id .. "::" .. messageTxt)
 end
 
 --- eof ---
