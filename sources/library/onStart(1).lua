@@ -1,21 +1,19 @@
 -- library.onStart(1)
 -- define support functions and globals for use elsewhere
 
-FontName             = RefrigeratorDeluxe
-FontSize             = 14
-
-productData          = {}
-productData[1]       = {}
-productData[2]       = {}
-productData[3]       = {}
-productData[4]       = {}
-productData[5]       = {}
+productDataTable          = {}
+productDataTable[1]       = {}
+productDataTable[2]       = {}
+productDataTable[3]       = {}
+productDataTable[4]       = {}
+productDataTable[5]       = {}
 
 PrecisionDigits      = 2
 PrecisionValue       = 10 ^ PrecisionDigits
 GramsToKG            = 1000
+Seconds              = 1
 Minutes              = {}
-Minutes[1]           = 60
+Minutes[1]           = 60 * Seconds
 Minutes[2]           = Minutes[1] * 2
 Minutes[5]           = Minutes[1] * 5
 
@@ -73,3 +71,4 @@ function console(messageTxt)
 end
 
 --- eof ---
+

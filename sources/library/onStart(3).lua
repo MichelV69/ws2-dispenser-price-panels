@@ -1,9 +1,15 @@
 -- library.onStart(3)
 -- define screen layout for use elsewhere
 ---
+FontName = "RefrigeratorDeluxe"
+FontSize = 14
+
 function RenderScreen(thisScreen, screenPosition, productDataRecord, itemDataTable)
     local ScreenTable                        = {}
-    productDataRecord.locDisplayNameWithSize = AbbreviateName(productDataRecord.locDisplayNameWithSize)
+
+    console("ProductName:"..productDataRecord.ProductName)
+    productDataRecord.locDisplayNameWithSize = AbbreviateName(productDataRecord.ProductName)
+    console("ProductName:"..productDataRecord.ProductName)
 
     -- R  G  B
     local greenText                          = '0.5, 1.0, 0.5'
@@ -116,8 +122,13 @@ function RenderScreen(thisScreen, screenPosition, productDataRecord, itemDataTab
     --get data to publish (3 & 4)
     ScreenTable[3]                           = [[
          local this_screenPosition = ']] .. screenPosition .. [['
-         local this_productDataRecord = ']] .. productDataRecord .. [['
-         local this_itemDataTable = ']] .. itemDataTable .. [[)
+         local this_product_ID = ']] .. productDataRecord.ID .. [['
+         local this_product_Name = ']] .. productDataRecord.ProductName .. [['
+         local this_product_pricePerUnit = ']] .. productDataRecord.pricePerUnit .. [['
+         local this_product_unitsPerSale = ']] .. productDataRecord.unitsPerSale .. [['
+         local this_item_locDisplayNameWithSize = ']] .. itemDataTable.locDisplayNameWithSize .. [['
+         local this_item_iconPath = ']] .. itemDataTable.iconPath .. [['
+         local this_item_tier = ']] .. itemDataTable.tier .. [[)
      ]]
 
     -- header and footer (4)
@@ -196,3 +207,4 @@ end -- function renderScreen
 
 ---
 --- eof ---
+

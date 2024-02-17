@@ -3,8 +3,8 @@ function boot(lcl_productData, lcl_userFontChoice, lcl_userFontSizeChoice)
     WS2_Software = {}
     WS2_Software.id = "dispenser_price_board"
     WS2_Software.title = "Dispenser Price Board"
-    WS2_Software.version = "0.0.12"
-    WS2_Software.revision = "16 Feb 2024 14h08 AST"
+    WS2_Software.version = "0.0.13"
+    WS2_Software.revision = "17 Feb 2024 16h28 AST"
     WS2_Software.author = "Michel Vaillancourt <902pe_gaming@wolfstar.ca>"
 
     system.print("\n --------------- \n")

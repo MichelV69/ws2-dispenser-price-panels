@@ -12,7 +12,6 @@ function UpdateScreens(screenListTable, productDataTable)
 
         -- now that we have the productID, check it against the productData set for a match
         screenDataTable = splitStringBy(".", thisScreen.getName())
-        console("thisScreen.getName(): [" .. thisScreen.getName() .. "]")
         local sdt_name = 1
         local sdt_itemID = 2
         screenPosition = screenDataTable[sdt_name]
@@ -22,16 +21,22 @@ function UpdateScreens(screenListTable, productDataTable)
         -- productData[5].ProductName = "RPG-3400 Merchant Prince"
         -- productData[5].pricePerUnit = 0.00
         -- productData[5].unitsPerSale = 0
+
         local foundMatch = false
         local productDataRecord = {}
         if #screenPosition and
             #productID then
             console("might have foundMatch")
+            console("#productDataTable:" .. #productDataTable)
+
             for i = 1, #productDataTable do
-                console(">>" .. productDataTable[i].ID .. "|" .. productID .. "<<")
                 if tonumber(productDataTable[i].ID) == tonumber(productID) then
                     console("DID foundMatch")
-                    productDataRecord = productDataTable[i]
+
+                    if productDataRecord.ProductName == nil then
+                        local itemDataRecord = system.getItem(productDataTable[i].ID)
+                        productDataRecord.ProductName = AbbreviateName(itemDataRecord.locDisplayNameWithSize)
+                    end
                     foundMatch = true
                     i = #productDataTable + 2
                 end
@@ -56,4 +61,3 @@ function AbbreviateName(long_name_string)
 end --- function AbbreviateName
 
 --- eof ---
-
