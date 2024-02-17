@@ -19,7 +19,7 @@ function RenderScreen(thisScreen, screenPosition, productDataRecord, itemDataTab
 
     --Parameters (1)
     ScreenTable[1]                           = [[
-        local FontName=]] .. FontName .. [[
+        local FontName="]] .. FontName .. [["
         local FontSize=]] .. FontSize .. [[
         local S_Title="]] .. WS2_Software.title .. [["
         local S_Version="]] .. WS2_Software.version .. [["
@@ -128,7 +128,7 @@ function RenderScreen(thisScreen, screenPosition, productDataRecord, itemDataTab
          local this_product_unitsPerSale = ']] .. productDataRecord.unitsPerSale .. [['
          local this_item_locDisplayNameWithSize = ']] .. itemDataTable.locDisplayNameWithSize .. [['
          local this_item_iconPath = ']] .. itemDataTable.iconPath .. [['
-         local this_item_tier = ']] .. itemDataTable.tier .. [[)
+         local this_item_tier = ']] .. itemDataTable.tier .. [['
      ]]
 
     -- header and footer (4)
@@ -149,7 +149,7 @@ function RenderScreen(thisScreen, screenPosition, productDataRecord, itemDataTab
     --- format data for display (5)
     ScreenTable[5]                           = [[
 
-            local productIcon = loadImage(this_productDataRecord.iconPath)
+            local productIcon = loadImage(this_item_iconPath)
             addImage(layers["images"], productIcon, layout.margin_left, layout.margin_top, layout.margin_left + layout.square_size , layout.margin_top + layout.square_size )
 
             eightCols = tidy(layout.cols_wide/8)
@@ -169,7 +169,7 @@ function RenderScreen(thisScreen, screenPosition, productDataRecord, itemDataTab
             horiz_offset = 2
             vert_offset = 3
             publish_to = getRowColsPosition(layout, eightCols * horiz_offset, row + vert_offset)
-            textMessage = this_productDataRecord.locDisplayNameWithSize
+            textMessage = this_item_locDisplayNameWithSize
             addText(layers["report_text"], FontText, textMessage, publish_to.x_pos, publish_to.y_pos)
 
             horiz_offset = 2
