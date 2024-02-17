@@ -32,7 +32,7 @@ function UpdateScreens(screenListTable, productDataTable)
             for i = 1, #productDataTable do
                 if tonumber(productDataTable[i].ID) == tonumber(productID) then
                     console("DID foundMatch")
-
+                    productDataRecord = productDataTable[i]
                     if productDataRecord.ProductName == nil then
                         local itemDataRecord = system.getItem(productDataTable[i].ID)
                         productDataRecord.ProductName = AbbreviateName(itemDataRecord.locDisplayNameWithSize)
@@ -61,3 +61,4 @@ function AbbreviateName(long_name_string)
 end --- function AbbreviateName
 
 --- eof ---
+
