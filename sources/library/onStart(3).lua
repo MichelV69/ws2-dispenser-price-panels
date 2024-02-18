@@ -3,6 +3,7 @@
 ---
 FontName = "RefrigeratorDeluxe"
 FontSize = 14
+orgLogoURL = "assets.prod.novaquark.com/145024/8ab0175a-333a-4980-970f-accc4940f234.jpg"
 
 function RenderScreen(thisScreen, screenPosition, productDataRecord, itemDataTable)
     local ScreenTable                        = {}
@@ -118,6 +119,8 @@ function RenderScreen(thisScreen, screenPosition, productDataRecord, itemDataTab
         setDefaultShadow(layers["report_text"], Shape_Text, shadowPX, ]] .. blueText .. [[, 1)
         setDefaultShadow(layers["footer_text"], Shape_Text, shadowPX/2, ]] .. greenText .. [[, 1)
         setDefaultShadow(layers["images"], Shape_Image, shadowPX*2, ]] .. simpleBlack .. [[, 1)
+        local displayedLogo = loadImage(]] .. orgLogoURL .. [[)
+
     ]]
     --get data to publish (3 & 4)
     ScreenTable[3]                           = [[
@@ -150,20 +153,29 @@ function RenderScreen(thisScreen, screenPosition, productDataRecord, itemDataTab
     ScreenTable[5]                           = [[
 
             local productIcon = loadImage(this_item_iconPath)
+            local displayedImage = productIcon
+            if this_screenPosition:lower() == "top" then
+                displayedImage = displayedLogo
+            end
             addImage(layers["images"], productIcon, layout.margin_left, layout.margin_top, layout.margin_left + layout.square_size , layout.margin_top + layout.square_size )
 
             eightCols = tidy(layout.cols_wide/8)
             row = layout.rows_high /3
 
             publish_to = getRowColsPosition(layout, eightCols, row)
-            textMessage = "blank1"
+            textMessage = "bottom"
+            if this_screenPosition:lower() == "top" then
+                textMessage = "top screen"
+            end
             addText(layers["report_text"], FontTextBigger, textMessage, publish_to.x_pos, publish_to.y_pos)
 
             horiz_offset = 1
             vert_offset = 2
             publish_to = getRowColsPosition(layout, eightCols * horiz_offset, row + vert_offset)
-
-            textMessage = "blank2"
+            textMessage = "bottom"
+            if this_screenPosition:lower() == "top" then
+                textMessage = "top screen"
+            end
             addText(layers["report_text"], FontTextBigger, textMessage, publish_to.x_pos, publish_to.y_pos)
 
             horiz_offset = 2
@@ -175,7 +187,10 @@ function RenderScreen(thisScreen, screenPosition, productDataRecord, itemDataTab
             horiz_offset = 2
             vert_offset = 4
             publish_to = getRowColsPosition(layout, eightCols * horiz_offset, row + vert_offset)
-            textMessage = "blank3"
+            textMessage = "bottom"
+            if this_screenPosition:lower() == "top" then
+                textMessage = "top screen"
+            end
             addText(layers["report_text"], FontText, textMessage, publish_to.x_pos, publish_to.y_pos)
             ]]
 

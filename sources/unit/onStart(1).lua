@@ -5,6 +5,7 @@
 --- --- # feel free to change these values to something you prefer
 local userFontChoice = "default"  --export Set the screen display font
 local userFontSizeChoice = "default" --export Set the screen display font size
+local userOrgLogoURL = "default"
 
 --- --- # add an item per set of dispenser screens to maintain.
 --- --- # any entry with an id, price or units of 0 is ignored / turned off.
@@ -32,6 +33,6 @@ productDataTable[5].unitsPerSale = 1
 
 --- # END of USER DATA Section
 --- # Changing anything else anywhere else will break this app
-boot(productDataTable, userFontChoice, userFontSizeChoice)
+boot(productDataTable, userFontChoice, userFontSizeChoice, userOrgLogoURLs)
 --- eof ---
 
