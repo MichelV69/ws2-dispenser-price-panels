@@ -33,6 +33,6 @@ productDataTable[5].unitsPerSale = 1
 
 --- # END of USER DATA Section
 --- # Changing anything else anywhere else will break this app
-boot(productDataTable, userFontChoice, userFontSizeChoice, userOrgLogoURLs)
+boot(productDataTable, userFontChoice, userFontSizeChoice, userOrgLogoURL)
 --- eof ---
 

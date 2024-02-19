@@ -2,15 +2,12 @@
 -- define screen layout for use elsewhere
 ---
 FontName = "RefrigeratorDeluxe"
-FontSize = 14
+FontSize = 24
 orgLogoURL = "assets.prod.novaquark.com/145024/8ab0175a-333a-4980-970f-accc4940f234.jpg"
 
 function RenderScreen(thisScreen, screenPosition, productDataRecord, itemDataTable)
     local ScreenTable                        = {}
-
-    console("ProductName:"..productDataRecord.ProductName)
     productDataRecord.locDisplayNameWithSize = AbbreviateName(productDataRecord.ProductName)
-    console("ProductName:"..productDataRecord.ProductName)
 
     -- R  G  B
     local greenText                          = '0.5, 1.0, 0.5'
@@ -113,13 +110,14 @@ function RenderScreen(thisScreen, screenPosition, productDataRecord, itemDataTab
         local FontText=loadFont(FontName , FontSize)
         local FontTextSmaller=loadFont(FontName , FontSize * (1 - fontSizeStep))
         local FontTextBigger=loadFont(FontName , FontSize * (1 + fontSizeStep))
+        local FontTextMax=loadFont(FontName , FontSize * (3 + fontSizeStep))
 
         local shadowPX = 4
         setDefaultShadow(layers["header_text"], Shape_Text, shadowPX/2, ]] .. blueText .. [[, 1)
         setDefaultShadow(layers["report_text"], Shape_Text, shadowPX, ]] .. blueText .. [[, 1)
         setDefaultShadow(layers["footer_text"], Shape_Text, shadowPX/2, ]] .. greenText .. [[, 1)
         setDefaultShadow(layers["images"], Shape_Image, shadowPX*2, ]] .. simpleBlack .. [[, 1)
-        local displayedLogo = loadImage(]] .. orgLogoURL .. [[)
+        local displayedLogo = loadImage("]] .. orgLogoURL .. [[")
 
     ]]
     --get data to publish (3 & 4)
@@ -152,44 +150,60 @@ function RenderScreen(thisScreen, screenPosition, productDataRecord, itemDataTab
     --- format data for display (5)
     ScreenTable[5]                           = [[
 
+            ---
             local productIcon = loadImage(this_item_iconPath)
             local displayedImage = productIcon
+            local imageLeft = layout.margin_left
+            local imageTop  = layout.margin_top
             if this_screenPosition:lower() == "top" then
                 displayedImage = displayedLogo
+                imageLeft = imageLeft + 2
+                imageTop  = imageTop  + 6
             end
-            addImage(layers["images"], productIcon, layout.margin_left, layout.margin_top, layout.margin_left + layout.square_size , layout.margin_top + layout.square_size )
+            local imageWide = imageLeft + layout.square_size
+            local imageTall = imageTop  + layout.square_size
+            addImage(layers["images"], displayedImage, imageLeft, imageTop, imageWide , imageTall )
 
+            ---
             eightCols = tidy(layout.cols_wide/8)
             row = layout.rows_high /3
+            local fontToDisplay = FontTextBigger
 
             publish_to = getRowColsPosition(layout, eightCols, row)
-            textMessage = "bottom"
+            textMessage = "T" .. this_item_tier .. " " .. this_product_Name .. "@" .. this_product_pricePerUnit .. "Q/L."
             if this_screenPosition:lower() == "top" then
-                textMessage = "top screen"
+                fontToDisplay = FontTextMax
+                textMessage = this_product_unitsPerSale .. "L " .. this_item_locDisplayNameWithSize
             end
-            addText(layers["report_text"], FontTextBigger, textMessage, publish_to.x_pos, publish_to.y_pos)
+            addText(layers["report_text"], fontToDisplay, textMessage, publish_to.x_pos, publish_to.y_pos)
 
+            ---
             horiz_offset = 1
             vert_offset = 2
             publish_to = getRowColsPosition(layout, eightCols * horiz_offset, row + vert_offset)
-            textMessage = "bottom"
+            textMessage = "Terminal is ready for transaction. Click on Dispenser to begin."
             if this_screenPosition:lower() == "top" then
-                textMessage = "top screen"
+                textMessage = " for " .. this_product_unitsPerSale * this_product_pricePerUnit .. "Q per batch."
             end
             addText(layers["report_text"], FontTextBigger, textMessage, publish_to.x_pos, publish_to.y_pos)
 
+            ---
             horiz_offset = 2
             vert_offset = 3
             publish_to = getRowColsPosition(layout, eightCols * horiz_offset, row + vert_offset)
-            textMessage = this_item_locDisplayNameWithSize
+            textMessage = " "
+            if this_screenPosition:lower() == "top" then
+                textMessage = " "
+            end
             addText(layers["report_text"], FontText, textMessage, publish_to.x_pos, publish_to.y_pos)
 
+            ---
             horiz_offset = 2
             vert_offset = 4
             publish_to = getRowColsPosition(layout, eightCols * horiz_offset, row + vert_offset)
-            textMessage = "bottom"
+            textMessage = "REMINDER: Do Not Make Purchases in VR without pre-arranged LOCAL storage!"
             if this_screenPosition:lower() == "top" then
-                textMessage = "top screen"
+                textMessage = " "
             end
             addText(layers["report_text"], FontText, textMessage, publish_to.x_pos, publish_to.y_pos)
             ]]
@@ -212,7 +226,6 @@ function RenderScreen(thisScreen, screenPosition, productDataRecord, itemDataTab
 
     --RENDER
     function ScreenRender(thisScreen)
-        thisScreen.clear()
         local screenTemplate = table.concat(ScreenTable)
         thisScreen.setRenderScript(screenTemplate)
     end -- function ScreenRender
@@ -222,4 +235,3 @@ end -- function renderScreen
 
 ---
 --- eof ---
-
