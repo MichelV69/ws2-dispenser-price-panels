@@ -70,5 +70,9 @@ function console(messageTxt)
     system.print(WS2_Software.id .. "::" .. messageTxt)
 end
 
+function isABluePrint(itemID)
+    local CoreBlueprintID = 3823417343
+    return (itemID == CoreBlueprintID)
+end
 --- eof ---
 

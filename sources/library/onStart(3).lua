@@ -9,14 +9,21 @@ function RenderScreen(thisScreen, screenPosition, productDataRecord, itemDataTab
     local ScreenTable                        = {}
     productDataRecord.locDisplayNameWithSize = AbbreviateName(productDataRecord.ProductName)
 
+    local formattedSalePrice                 = tostring(productDataRecord.pricePerUnit * productDataRecord.unitsPerSale)
+        :format("%,04d")
+
+    if productDataRecord.altArtworkURL == nil then
+        productDataRecord.altArtworkURL = "--"
+    end
+
     -- R  G  B
-    local greenText                          = '0.5, 1.0, 0.5'
-    local blueText                           = '0.5, 0.5, 1.0'
-    local orangeText                         = '1.0, 0.5, 0.5'
-    local simpleBlack                        = '0.2, 0.2, 0.2'
+    local greenText        = '0.5, 1.0, 0.5'
+    local blueText         = '0.5, 0.5, 1.0'
+    local orangeText       = '1.0, 0.5, 0.5'
+    local simpleBlack      = '0.2, 0.2, 0.2'
 
     --Parameters (1)
-    ScreenTable[1]                           = [[
+    ScreenTable[1]         = [[
         local FontName="]] .. FontName .. [["
         local FontSize=]] .. FontSize .. [[
         local S_Title="]] .. WS2_Software.title .. [["
@@ -27,7 +34,7 @@ function RenderScreen(thisScreen, screenPosition, productDataRecord, itemDataTab
         ]]
 
     -- general layout(2)
-    ScreenTable[2]                           = [[
+    ScreenTable[2]         = [[
         --Layers
         local layers={}
         layers["background"]  = createLayer()
@@ -121,19 +128,20 @@ function RenderScreen(thisScreen, screenPosition, productDataRecord, itemDataTab
 
     ]]
     --get data to publish (3 & 4)
-    ScreenTable[3]                           = [[
+    ScreenTable[3]         = [[
          local this_screenPosition = ']] .. screenPosition .. [['
          local this_product_ID = ']] .. productDataRecord.ID .. [['
          local this_product_Name = ']] .. productDataRecord.ProductName .. [['
          local this_product_pricePerUnit = ']] .. productDataRecord.pricePerUnit .. [['
          local this_product_unitsPerSale = ']] .. productDataRecord.unitsPerSale .. [['
+         local this_product_altArtworkURL = ']] .. productDataRecord.altArtworkURL .. [['
          local this_item_locDisplayNameWithSize = ']] .. itemDataTable.locDisplayNameWithSize .. [['
          local this_item_iconPath = ']] .. itemDataTable.iconPath .. [['
          local this_item_tier = ']] .. itemDataTable.tier .. [['
      ]]
 
     -- header and footer (4)
-    ScreenTable[4]                           = [[
+    ScreenTable[4]         = [[
       local vpos = 1
       publish_to = getRowColsPosition(layout, 1, vpos)
       textMessage = S_Title .. " v" .. S_Version .. " (" .. S_Revision .. ")"
@@ -143,20 +151,23 @@ function RenderScreen(thisScreen, screenPosition, productDataRecord, itemDataTab
       row = layout.rows_high - 3
 
       publish_to = getRowColsPosition(layout, col, row)
-      textMessage = "screen last updated: ["..timeStamp.."]"
+      textMessage = "screen last updated: [" .. timeStamp .. "]"
       addText(layers["footer_text"], FontTextSmaller, textMessage, publish_to.x_pos, publish_to.y_pos)
     ]]
 
     --- format data for display (5)
-    ScreenTable[5]                           = [[
-
+    local isABluePrint_txt = "local lcl_isABluePrint = 0"
+    if isABluePrint(productDataRecord.ID) then
+        isABluePrint_txt = "local lcl_isABluePrint = 1"
+    end
+    ScreenTable[5] = isABluePrint_txt .. [[
             ---
             local productIcon = loadImage(this_item_iconPath)
-            local displayedImage = productIcon
+            local displayedImage = displayedLogo
             local imageLeft = layout.margin_left
             local imageTop  = layout.margin_top
             if this_screenPosition:lower() == "top" then
-                displayedImage = displayedLogo
+                displayedImage = productIcon
                 imageLeft = imageLeft + 2
                 imageTop  = imageTop  + 6
             end
@@ -174,6 +185,10 @@ function RenderScreen(thisScreen, screenPosition, productDataRecord, itemDataTab
             if this_screenPosition:lower() == "top" then
                 fontToDisplay = FontTextMax
                 textMessage = this_product_unitsPerSale .. "L " .. this_item_locDisplayNameWithSize
+                if lcl_isABluePrint == 1 then
+                    publish_to = getRowColsPosition(layout, eightCols - 2, row)
+                    textMessage = this_product_unitsPerSale .. " " .. this_product_Name .. " BP."
+                end
             end
             addText(layers["report_text"], fontToDisplay, textMessage, publish_to.x_pos, publish_to.y_pos)
 
@@ -183,7 +198,10 @@ function RenderScreen(thisScreen, screenPosition, productDataRecord, itemDataTab
             publish_to = getRowColsPosition(layout, eightCols * horiz_offset, row + vert_offset)
             textMessage = "Terminal is ready for transaction. Click on Dispenser to begin."
             if this_screenPosition:lower() == "top" then
-                textMessage = " for " .. this_product_unitsPerSale * this_product_pricePerUnit .. "Q per batch."
+                textMessage = " for " .. ]] .. formattedSalePrice .. [[ .. "Q per batch."
+                if lcl_isABluePrint == 1 then
+                    textMessage = textMessage .. " (some assembly required)"
+                end
             end
             addText(layers["report_text"], FontTextBigger, textMessage, publish_to.x_pos, publish_to.y_pos)
 
@@ -192,8 +210,15 @@ function RenderScreen(thisScreen, screenPosition, productDataRecord, itemDataTab
             vert_offset = 3
             publish_to = getRowColsPosition(layout, eightCols * horiz_offset, row + vert_offset)
             textMessage = " "
-            if this_screenPosition:lower() == "top" then
-                textMessage = " "
+
+            if this_screenPosition:lower() == "top"
+                and lcl_isABluePrint == 1 then
+                    displayedImage = loadImage(this_product_altArtworkURL)
+                    local imageLeft = layout.margin_left + 256
+                    local imageTop  = layout.margin_top  + 128
+                    local imageWide = imageLeft + layout.square_size * 2
+                    local imageTall = imageTop  + layout.square_size * 2
+                    addImage(layers["images"], displayedImage, imageLeft, imageTop, imageWide , imageTall )
             end
             addText(layers["report_text"], FontText, textMessage, publish_to.x_pos, publish_to.y_pos)
 
@@ -209,7 +234,7 @@ function RenderScreen(thisScreen, screenPosition, productDataRecord, itemDataTab
             ]]
 
     --- tick-timer, etc (6)
-    ScreenTable[6]                           = [[
+    ScreenTable[6] = [[
       col = tidy(layout.cols_wide/3)
       row = layout.rows_high - 4
       publish_to = getRowColsPosition(layout, col, row)
@@ -220,7 +245,7 @@ function RenderScreen(thisScreen, screenPosition, productDataRecord, itemDataTab
       ]]
 
     --Animation (7)
-    ScreenTable[7]                           = [[
+    ScreenTable[7] = [[
         requestAnimationFrame(5)
         ]]
 

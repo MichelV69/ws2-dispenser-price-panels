@@ -26,10 +26,11 @@ productDataTable[4].ID = 1423148560 -- Sulfur Scrap
 productDataTable[4].pricePerUnit = 230.32
 productDataTable[4].unitsPerSale = 100
 
-productDataTable[5].ID = 1793858647 -- Blueprints
+productDataTable[5].ID = 3823417343 -- Core Blueprint
 productDataTable[5].ProductName = "RPG-3400 Merchant Prince"
 productDataTable[5].pricePerUnit = 330000.00
 productDataTable[5].unitsPerSale = 1
+productDataTable[5].altArtworkURL = "assets.prod.novaquark.com/145024/7f0acf62-e650-4136-997d-84cada7efe0a.png"
 
 --- # END of USER DATA Section
 --- # Changing anything else anywhere else will break this app
