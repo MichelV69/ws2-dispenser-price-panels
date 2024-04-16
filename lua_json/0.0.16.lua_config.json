@@ -1,0 +1,180 @@
+{
+    "slots": {
+      "0": {
+        "name": "slot1",
+        "type": {
+          "events": [],
+          "methods": []
+        }
+      },
+      "1": {
+        "name": "slot2",
+        "type": {
+          "events": [],
+          "methods": []
+        }
+      },
+      "2": {
+        "name": "slot3",
+        "type": {
+          "events": [],
+          "methods": []
+        }
+      },
+      "3": {
+        "name": "slot4",
+        "type": {
+          "events": [],
+          "methods": []
+        }
+      },
+      "4": {
+        "name": "slot5",
+        "type": {
+          "events": [],
+          "methods": []
+        }
+      },
+      "5": {
+        "name": "slot6",
+        "type": {
+          "events": [],
+          "methods": []
+        }
+      },
+      "6": {
+        "name": "slot7",
+        "type": {
+          "events": [],
+          "methods": []
+        }
+      },
+      "7": {
+        "name": "slot8",
+        "type": {
+          "events": [],
+          "methods": []
+        }
+      },
+      "8": {
+        "name": "slot9",
+        "type": {
+          "events": [],
+          "methods": []
+        }
+      },
+      "9": {
+        "name": "slot10",
+        "type": {
+          "events": [],
+          "methods": []
+        }
+      },
+      "-1": {
+        "name": "unit",
+        "type": {
+          "events": [],
+          "methods": []
+        }
+      },
+      "-3": {
+        "name": "player",
+        "type": {
+          "events": [],
+          "methods": []
+        }
+      },
+      "-2": {
+        "name": "construct",
+        "type": {
+          "events": [],
+          "methods": []
+        }
+      },
+      "-4": {
+        "name": "system",
+        "type": {
+          "events": [],
+          "methods": []
+        }
+      },
+      "-5": {
+        "name": "library",
+        "type": {
+          "events": [],
+          "methods": []
+        }
+      }
+    },
+    "handlers": [
+      {
+        "code": "--- unit.onStart(1)\n--- # USER DATA\n\n--- --- # screen presentation\n--- --- # feel free to change these values to something you prefer\nlocal userFontChoice = \"default\"  --export Set the screen display font\nlocal userFontSizeChoice = \"default\" --export Set the screen display font size\nlocal userOrgLogoURL = \"default\"\n\n--- --- # add an item per set of dispenser screens to maintain.\n--- --- # any entry with an id, price or units of 0 is ignored / turned off.\n--- --- # any entry with an id of \"1793858647\" (\"Blueprints\") requires the \"ProductName\" field to be filled in.\nproductDataTable[1].ID = 840202986 -- Kergon-X3 fuel\nproductDataTable[1].pricePerUnit = 23.95\nproductDataTable[1].unitsPerSale = 3200\n\nproductDataTable[2].ID = 2579672037 -- Nitron Fuel\nproductDataTable[2].pricePerUnit = 6.52\nproductDataTable[2].unitsPerSale = 3200\n\nproductDataTable[3].ID = 409040753 -- Chromium Scrap\nproductDataTable[3].pricePerUnit = 258.00\nproductDataTable[3].unitsPerSale = 100\n\nproductDataTable[4].ID = 1423148560 -- Sulfur Scrap\nproductDataTable[4].pricePerUnit = 230.32\nproductDataTable[4].unitsPerSale = 100\n\nproductDataTable[5].ID = 3823417343 -- Core Blueprint\nproductDataTable[5].ProductName = \"E19-99-C Hybrid Atmo Space (HAS)\"\nproductDataTable[5].pricePerUnit = 330000.00\nproductDataTable[5].unitsPerSale = 1\nproductDataTable[5].altArtworkURL = \"\"\n-- \n-- productDataTable[6].ID = 3823417343 -- Core Blueprint\n-- productDataTable[6].ProductName = \"E19-99-C Orbital Transfer Vehicle (OTV)\"\n-- productDataTable[6].pricePerUnit = 330000.00\n-- productDataTable[6].unitsPerSale = 1\n-- productDataTable[6].altArtworkURL = \"\"\n-- \n-- productDataTable[7].ID = 3823417343 -- Core Blueprint\n-- productDataTable[7].ProductName = \"RPG-3400 Merchant Prince\"\n-- productDataTable[7].pricePerUnit = 330000.00\n-- productDataTable[7].unitsPerSale = 1\n-- productDataTable[7].altArtworkURL = \"assets.prod.novaquark.com/145024/7f0acf62-e650-4136-997d-84cada7efe0a.png\"\n\n--- # END of USER DATA Section\n--- # Changing anything else anywhere else will break this app\nboot(productDataTable, userFontChoice, userFontSizeChoice, userOrgLogoURL)\n--- eof ---\n\n",
+        "filter": {
+          "args": [],
+          "signature": "onStart()",
+          "slotKey": "-1"
+        },
+        "key": "0"
+      },
+      {
+        "code": "--- onTimer(*)\nif msg == \"500ms\" then\n    --- launch every 0.5 seconds\n    screenPulseTick()\n    UpdateScreens(ScreenList, productDataTable)\nend\n--- eof ---\n",
+        "filter": {
+          "args": [
+            {
+              "variable": "*"
+            }
+          ],
+          "signature": "onTimer(tag)",
+          "slotKey": "-1"
+        },
+        "key": "1"
+      },
+      {
+        "code": "--- ###   system.onStart(1).lua   ### ---\nfunction boot(lcl_productData, lcl_userFontChoice, lcl_userFontSizeChoice, lcl_userOrgLogoURL)\n    WS2_Software = {}\n    WS2_Software.id = \"dispenser_price_board\"\n    WS2_Software.title = \"Dispenser Price Board\"\n    WS2_Software.version = \"0.0.16\"\n    WS2_Software.revision = \"16 Apr 2024 14h21 AST\"\n    WS2_Software.author = \"Michel Vaillancourt <902pe_gaming@wolfstar.ca>\"\n\n    system.print(\"\\n --------------- \\n\")\n    local msgTitleAndVersion = WS2_Software.title .. \"\\n\" .. WS2_Software.version\n    system.print(msgTitleAndVersion)\n\n    ---\n    if lcl_userFontChoice ~= \"default\" then\n        FontName = [[\"]] .. lcl_userFontChoice .. [[\"]]\n    end\n    if lcl_userFontSizeChoice ~= \"default\" then\n        FontSize = lcl_userFontSizeChoice\n    end\n    if lcl_userOrgLogoURL ~= \"default\" then\n        orgLogoURL = lcl_userOrgLogoURL\n    end\n\n    ---\n    Slotlist     = { slot1, slot2, slot3, slot4, slot5, slot6, slot7, slot8, slot9, slot10 }\n    ScreenList   = {}\n    DatabankList = {}\n\n    --- sanity / configuration check\n    for i = 1, #Slotlist, 1 do\n        local thisSlot = Slotlist[i]\n\n        console(WS2_Software.id .. \": found [\" .. thisSlot.getClass() .. \"] in Slot [\" .. i .. \"].\")\n\n        if thisSlot.getClass() == \"ScreenUnit\" then\n            table.insert(ScreenList, thisSlot)\n        end\n        if thisSlot.getClass() == \"DatabankUnit\" then\n            table.insert(DatabankList, thisSlot)\n        end\n    end\n\n    if #ScreenList == 0 then\n        error \"No Screen connected.  Cannot continue.\"\n    else\n        console(WS2_Software.id .. \": found [\" .. #ScreenList .. \"] connected Screens.\")\n    end\n\n    -- if #DatabankList == 0 then\n    --    error \"No databank connected.  Cannot continue.\"\n    -- else\n    --     console(WS2_Software.id .. \": found [\" .. #DatabankList .. \"] connected Databanks.\")\n    -- end\n\n    for i = 1, #ScreenList, 1 do\n        ScreenList[i].activate()\n        ScreenList[i].setCenteredText(msgTitleAndVersion .. \"\\n\\n BOOTING\")\n    end\n\n    UpdateScreens(ScreenList, lcl_productData)\n    unit.setTimer(\"500ms\", 0.5)\nend\n\n--- ### EOF system.onStart(1).lua ### ---\n",
+        "filter": {
+          "args": [],
+          "signature": "onStart()",
+          "slotKey": "-4"
+        },
+        "key": "2"
+      },
+      {
+        "code": "-- library.onStart(4)\n--[[ TimeScript by Jericho (github.com/Jericho1060) ]]\n--[[ snagged from LocuraDU (https://github.com/LocuraDU) ]]\nfunction EpochTime()\n    local t = system.getUtcTime()\n    if not utc then t = t + system.getUtcOffset() end\n    local DSEC = 24 * 60 * 60\n    local YSEC = 365 * DSEC\n    local LSEC = YSEC + DSEC\n    local FSEC = 4 * YSEC + DSEC\n    local BASE_DOW = 4\n    local BASE_YEAR = 1970\n    local _days = { -1, 30, 58, 89, 119, 150, 180, 211, 242, 272, 303, 333, 364 }\n    local _lpdays = {}\n    for i = 1, 2 do _lpdays[i] = _days[i] end\n    for i = 3, 13 do _lpdays[i] = _days[i] + 1 end\n    local y, j, m, d, w, h, n, s\n    local mdays = _days\n    s = t\n    y = math.floor(s / FSEC)\n    s = s - y * FSEC\n    y = y * 4 + BASE_YEAR\n    if s >= YSEC then\n        y = y + 1\n        s = s - YSEC\n        if s >= YSEC then\n            y = y + 1\n            s = s - YSEC\n            if s >= LSEC then\n                y = y + 1\n                s = s - LSEC\n            else\n                mdays = _lpdays\n            end\n        end\n    end\n    j = math.floor(s / DSEC)\n    s = s - j * DSEC\n    local m = 1\n    while mdays[m] < j do m = m + 1 end\n    m = m - 1\n    local d = j - mdays[m]\n    w = (math.floor(t / DSEC) + BASE_DOW) % 7\n    if w == 0 then w = 7 end\n    h = math.floor(s / 3600)\n    s = s - h * 3600\n    n = math.floor(s / 60)\n    function round(a, b)\n        if b then return utils.round(a / b) * b end; return a >= 0 and math.floor(a + 0.5) or math.ceil(a - 0.5)\n    end\n\n    s = round(s - n * 60)\n    local weekDaysNames = { \"Monday\", \"Tuesday\", \"Wednesday\", \"Thursday\", \"Friday\", \"Saturday\", \"Sunday\" }\n    local weekDaysShortNames = { \"Mon\", \"Tue\", \"Wed\", \"Thu\", \"Fri\", \"Sat\", \"Sun\" }\n    local monthNames = { \"January\", \"February\", \"March\", \"April\", \"May\", \"June\", \"July\", \"August\", \"September\", \"October\",\n        \"November\", \"December\" }\n    local monthShortNames = { \"Jan\", \"Feb\", \"Mar\", \"Apr\", \"May\", \"Jun\", \"Jul\", \"Aug\", \"Sep\", \"Oct\", \"Nov\", \"Dec\" }\n\n    return string.format(\"%02d : %02d : %02d \", h, n, s) ..\n    weekDaysShortNames[w] .. \" / \" .. monthShortNames[m] .. \" / \" .. d .. \" / \" .. y\nend\n\n--- eof ---\n",
+        "filter": {
+          "args": [],
+          "signature": "onStart()",
+          "slotKey": "-5"
+        },
+        "key": "3"
+      },
+      {
+        "code": "-- library.onStart(3)\n-- define screen layout for use elsewhere\n---\nFontName = \"RefrigeratorDeluxe\"\nFontSize = 24\norgLogoURL = \"assets.prod.novaquark.com/145024/8ab0175a-333a-4980-970f-accc4940f234.jpg\"\n\nfunction RenderScreen(thisScreen, screenPosition, productDataRecord, itemDataTable)\n    local ScreenTable                        = {}\n    productDataRecord.locDisplayNameWithSize = AbbreviateName(productDataRecord.ProductName)\n\n    local formattedSalePrice                 = tostring(productDataRecord.pricePerUnit * productDataRecord.unitsPerSale)\n        :format(\"%,04d\")\n\n    if productDataRecord.altArtworkURL == nil then\n        productDataRecord.altArtworkURL = \"--\"\n    end\n\n    -- R  G  B\n    local greenText        = '0.5, 1.0, 0.5'\n    local blueText         = '0.5, 0.5, 1.0'\n    local orangeText       = '1.0, 0.5, 0.5'\n    local simpleBlack      = '0.2, 0.2, 0.2'\n\n    --Parameters (1)\n    ScreenTable[1]         = [[\n        local FontName=\"]] .. FontName .. [[\"\n        local FontSize=]] .. FontSize .. [[\n        local S_Title=\"]] .. WS2_Software.title .. [[\"\n        local S_Version=\"]] .. WS2_Software.version .. [[\"\n        local S_Revision=\"]] .. WS2_Software.revision .. [[\"\n        local timeStamp=\"]] .. EpochTime() .. [[\"\n        local notDeadYet=\"]] .. screenPulseTick() .. [[\"\n        ]]\n\n    -- general layout(2)\n    ScreenTable[2]         = [[\n        --Layers\n        local layers={}\n        layers[\"background\"]  = createLayer()\n        layers[\"shading\"]     = createLayer()\n        layers[\"images\"]      = createLayer()\n        layers[\"footer_text\"] = createLayer()\n        layers[\"header_text\"] = createLayer()\n        layers[\"report_text\"] = createLayer()\n\n        setBackgroundColor(15/255, 24/255, 29/255)\n\n        --util functions\n        function tidy(valueToRound)\n            precisionDigits = 2\n            precisionValue  = 10^precisionDigits\n            if valueToRound == nil then return 0 end\n            local roundedValue = (math.floor(valueToRound * precisionValue) / precisionValue)\n            return roundedValue\n            end --- function tidy\n\n        ---\n        function getRowColsPosition(layout, col, row)\n            if col > layout.cols_wide then col = layout.cols_wide end\n            x_pos = (layout.col_width * col) + layout.margin_left\n            if row > layout.rows_high then row = layout.rows_high end\n            y_pos = (layout.row_height * row) + layout.margin_top\n            return {x_pos = x_pos, y_pos = y_pos}\n            end --- function getRowColsPosition\n\n        ---\n        function drawBorder(layers, layout)\n            -- draw two boxes, one inside the other\n            rounding_px = 18\n            setDefaultFillColor(layers[\"shading\"], Shape_BoxRounded, 0, 1, 0, 1)\n\n            topLeftCorner_X = layout.col_width\n            topLeftCorner_Y = layout.row_height\n            boxWidth_px   = (layout.cols_wide - 2) * layout.col_width\n            boxHeight_px  = (layout.rows_high - 2) * layout.row_height\n\n            addBoxRounded(layers[\"shading\"],\n                topLeftCorner_X, topLeftCorner_Y,\n                boxWidth_px, boxHeight_px,\n                rounding_px)\n\n            -- smaller \"write inside\"\n            setDefaultFillColor(layers[\"shading\"], Shape_BoxRounded, 0.2, 0.2, 0.2, 1)\n\n            topLeftCorner_X = layout.col_width * 2\n            topLeftCorner_Y = layout.row_height * 2\n            boxWidth_px   = (layout.cols_wide - 4) * layout.col_width\n            boxHeight_px  = (layout.rows_high - 4) * layout.row_height\n\n            addBoxRounded(layers[\"shading\"],\n                topLeftCorner_X, topLeftCorner_Y,\n                boxWidth_px, boxHeight_px,\n                rounding_px)\n\n            end  --- function drawStatusBorder\n\n        --Scr Resolution\n        local rx, ry= getResolution()\n        local layout = {}\n        layout.cols_wide = tidy(rx/(FontSize*1.2))\n        layout.col_width = tidy(rx/layout.cols_wide)\n\n        layout.rows_high = tidy(ry/(FontSize*1.2))\n        layout.row_height = tidy(ry/layout.rows_high)\n\n        layout.margin_top = tidy((ry * 0.1) / 2)\n        layout.margin_bottom = layout.margin_top\n        layout.margin_left = tidy((rx * 0.1) / 2)\n        layout.margin_right = layout.margin_left\n\n        layout.square_size = 128\n\n        --Font Setups\n        local offsetStepPX = 24\n        local fontSizeStep = 0.33\n        local FontText=loadFont(FontName , FontSize)\n        local FontTextSmaller=loadFont(FontName , FontSize * (1 - fontSizeStep))\n        local FontTextBigger=loadFont(FontName , FontSize * (1 + fontSizeStep))\n        local FontTextMax=loadFont(FontName , FontSize * (3 + fontSizeStep))\n\n        local shadowPX = 4\n        setDefaultShadow(layers[\"header_text\"], Shape_Text, shadowPX/2, ]] .. blueText .. [[, 1)\n        setDefaultShadow(layers[\"report_text\"], Shape_Text, shadowPX, ]] .. blueText .. [[, 1)\n        setDefaultShadow(layers[\"footer_text\"], Shape_Text, shadowPX/2, ]] .. greenText .. [[, 1)\n        setDefaultShadow(layers[\"images\"], Shape_Image, shadowPX*2, ]] .. simpleBlack .. [[, 1)\n        local displayedLogo = loadImage(\"]] .. orgLogoURL .. [[\")\n\n    ]]\n    --get data to publish (3 & 4)\n    ScreenTable[3]         = [[\n         local this_screenPosition = ']] .. screenPosition .. [['\n         local this_product_ID = ']] .. productDataRecord.ID .. [['\n         local this_product_Name = ']] .. productDataRecord.ProductName .. [['\n         local this_product_pricePerUnit = ']] .. productDataRecord.pricePerUnit .. [['\n         local this_product_unitsPerSale = ']] .. productDataRecord.unitsPerSale .. [['\n         local this_product_altArtworkURL = ']] .. productDataRecord.altArtworkURL .. [['\n         local this_item_locDisplayNameWithSize = ']] .. itemDataTable.locDisplayNameWithSize .. [['\n         local this_item_iconPath = ']] .. itemDataTable.iconPath .. [['\n         local this_item_tier = ']] .. itemDataTable.tier .. [['\n     ]]\n\n    -- header and footer (4)\n    ScreenTable[4]         = [[\n      local vpos = 1\n      publish_to = getRowColsPosition(layout, 1, vpos)\n      textMessage = S_Title .. \" v\" .. S_Version .. \" (\" .. S_Revision .. \")\"\n      addText(layers[\"header_text\"], FontTextSmaller, textMessage, publish_to.x_pos, publish_to.y_pos)\n\n      col = tidy(layout.cols_wide/3) - 1.5\n      row = layout.rows_high - 3\n\n      publish_to = getRowColsPosition(layout, col, row)\n      textMessage = \"screen last updated: [\" .. timeStamp .. \"]\"\n      addText(layers[\"footer_text\"], FontTextSmaller, textMessage, publish_to.x_pos, publish_to.y_pos)\n    ]]\n\n    --- format data for display (5)\n    local isABluePrint_txt = \"local lcl_isABluePrint = 0\"\n    if isABluePrint(productDataRecord.ID) then\n        isABluePrint_txt = \"local lcl_isABluePrint = 1\"\n    end\n    ScreenTable[5] = isABluePrint_txt .. [[\n            ---\n            local productIcon = loadImage(this_item_iconPath)\n            local displayedImage = displayedLogo\n            local imageLeft = layout.margin_left\n            local imageTop  = layout.margin_top\n            if this_screenPosition:lower() == \"top\" then\n                displayedImage = productIcon\n                imageLeft = imageLeft + 2\n                imageTop  = imageTop  + 6\n            end\n            local imageWide = imageLeft + layout.square_size\n            local imageTall = imageTop  + layout.square_size\n            addImage(layers[\"images\"], displayedImage, imageLeft, imageTop, imageWide , imageTall )\n\n            ---\n            eightCols = tidy(layout.cols_wide/8)\n            row = layout.rows_high /3\n            local fontToDisplay = FontTextBigger\n\n            publish_to = getRowColsPosition(layout, eightCols, row)\n            textMessage = \"T\" .. this_item_tier .. \" \" .. this_product_Name .. \"@\" .. this_product_pricePerUnit .. \"Q/L.\"\n            if this_screenPosition:lower() == \"top\" then\n                fontToDisplay = FontTextMax\n                textMessage = this_product_unitsPerSale .. \"L \" .. this_item_locDisplayNameWithSize\n                if lcl_isABluePrint == 1 then\n                    publish_to = getRowColsPosition(layout, eightCols - 2, row)\n                    textMessage = this_product_unitsPerSale .. \" \" .. this_product_Name .. \" BP.\"\n                end\n            end\n            addText(layers[\"report_text\"], fontToDisplay, textMessage, publish_to.x_pos, publish_to.y_pos)\n\n            ---\n            horiz_offset = 1\n            vert_offset = 2\n            publish_to = getRowColsPosition(layout, eightCols * horiz_offset, row + vert_offset)\n            textMessage = \"Terminal is ready for transaction. Click on Dispenser to begin.\"\n            if this_screenPosition:lower() == \"top\" then\n                textMessage = \" for \" .. ]] .. formattedSalePrice .. [[ .. \"Q per batch.\"\n                if lcl_isABluePrint == 1 then\n                    textMessage = textMessage .. \" (some assembly required)\"\n                end\n            end\n            addText(layers[\"report_text\"], FontTextBigger, textMessage, publish_to.x_pos, publish_to.y_pos)\n\n            ---\n            horiz_offset = 2\n            vert_offset = 3\n            publish_to = getRowColsPosition(layout, eightCols * horiz_offset, row + vert_offset)\n            textMessage = \" \"\n\n            if this_screenPosition:lower() == \"top\"\n                and lcl_isABluePrint == 1 then\n                    displayedImage = loadImage(this_product_altArtworkURL)\n                    local imageLeft = layout.margin_left + 256 * 1.2\n                    local imageTop  = layout.margin_top  + 128\n                    local imageWide = imageLeft + layout.square_size * 2 * 0.8\n                    local imageTall = imageTop  + layout.square_size * 2 * 0.8\n                    addImage(layers[\"images\"], displayedImage, imageLeft, imageTop, imageWide , imageTall )\n            end\n            addText(layers[\"report_text\"], FontText, textMessage, publish_to.x_pos, publish_to.y_pos)\n\n            ---\n            horiz_offset = 2\n            vert_offset = 4\n            publish_to = getRowColsPosition(layout, eightCols * horiz_offset, row + vert_offset)\n            textMessage = \"REMINDER: Do Not Make Purchases in VR without pre-arranged LOCAL storage!\"\n            if this_screenPosition:lower() == \"top\" then\n                textMessage = \" \"\n            end\n            addText(layers[\"report_text\"], FontText, textMessage, publish_to.x_pos, publish_to.y_pos)\n            ]]\n\n    --- tick-timer, etc (6)\n    ScreenTable[6] = [[\n      col = tidy(layout.cols_wide/3)\n      row = layout.rows_high - 4\n      publish_to = getRowColsPosition(layout, col, row)\n      textMessage = notDeadYet\n      addText(layers[\"report_text\"], FontText, textMessage, publish_to.x_pos, publish_to.y_pos)\n\n      drawBorder(layers, layout)\n      ]]\n\n    --Animation (7)\n    ScreenTable[7] = [[\n        requestAnimationFrame(5)\n        ]]\n\n    --RENDER\n    function ScreenRender(thisScreen)\n        local screenTemplate = table.concat(ScreenTable)\n        thisScreen.setRenderScript(screenTemplate)\n    end -- function ScreenRender\n\n    ScreenRender(thisScreen)\nend -- function renderScreen\n\n---\n--- eof ---\n",
+        "filter": {
+          "args": [],
+          "signature": "onStart()",
+          "slotKey": "-5"
+        },
+        "key": "4"
+      },
+      {
+        "code": "-- library.onStart(2)\n-- define key functions for use elsewhere\n---\n\nfunction UpdateScreens(screenListTable, productDataTable)\n    for i = 1, #screenListTable do\n        --Table take apart the screen's device name to get the position and product ID\n        local screenPosition = top\n        local productID = -1\n        local screenDataTable = {}\n        local thisScreen = screenListTable[i]\n\n        -- now that we have the productID, check it against the productData set for a match\n        screenDataTable = splitStringBy(\".\", thisScreen.getName())\n        local sdt_name = 1\n        local sdt_itemID = 2\n        screenPosition = screenDataTable[sdt_name]\n        productID = screenDataTable[sdt_itemID]\n\n        -- productData[5].ID = 1793858647 -- Blueprints\n        -- productData[5].ProductName = \"RPG-3400 Merchant Prince\"\n        -- productData[5].pricePerUnit = 0.00\n        -- productData[5].unitsPerSale = 0\n\n        local foundMatch = false\n        local productDataRecord = {}\n        if screenPosition and\n            productID and\n            #screenPosition and\n            #productID then\n            console(\"might have foundMatch\")\n            console(\"#productDataTable:\" .. #productDataTable)\n\n            for i = 1, #productDataTable do\n                if tonumber(productDataTable[i].ID) == tonumber(productID) then\n                    console(\"DID foundMatch\")\n                    productDataRecord = productDataTable[i]\n                    if productDataRecord.ProductName == nil then\n                        local itemDataRecord = system.getItem(productDataTable[i].ID)\n                        productDataRecord.ProductName = AbbreviateName(itemDataRecord.locDisplayNameWithSize)\n                    end\n                    foundMatch = true\n                    i = #productDataTable + 2\n                end\n            end\n        end\n\n        local batchPrice = -1\n        if foundMatch then\n            local itemDataTable = system.getItem(productID)\n            batchPrice = productDataRecord.pricePerUnit * productDataRecord.unitsPerSale\n            if batchPrice >= 0 then\n                RenderScreen(thisScreen, screenPosition, productDataRecord, itemDataTable)\n            end\n        end\n    end\nend --- function UpdateScreens\n\n---\nfunction AbbreviateName(long_name_string)\n    if long_name_string == nil then long_name_string = \" \" end\n    return long_name_string:gsub('Uncommon', 'UNC'):gsub('Advanced', 'ADV')\nend --- function AbbreviateName\n\n--- eof ---\n\n",
+        "filter": {
+          "args": [],
+          "signature": "onStart()",
+          "slotKey": "-5"
+        },
+        "key": "5"
+      },
+      {
+        "code": "-- library.onStart(1)\n-- define support functions and globals for use elsewhere\n\nproductDataTable          = {}\nproductDataTable[1]       = {}\nproductDataTable[2]       = {}\nproductDataTable[3]       = {}\nproductDataTable[4]       = {}\nproductDataTable[5]       = {}\nproductDataTable[6]       = {}\nproductDataTable[7]       = {}\nproductDataTable[8]       = {}\nproductDataTable[9]       = {}\nproductDataTable[10]       = {}\nproductDataTable[11]       = {}\n\nPrecisionDigits      = 2\nPrecisionValue       = 10 ^ PrecisionDigits\nGramsToKG            = 1000\nSeconds              = 1\nMinutes              = {}\nMinutes[1]           = 60 * Seconds\nMinutes[2]           = Minutes[1] * 2\nMinutes[5]           = Minutes[1] * 5\n\nScreenPulseTable     = {}\nScreenPulseTable[1]  = \"[-=+     ]\"\nScreenPulseTable[2]  = \"[ -=+    ]\"\nScreenPulseTable[3]  = \"[  -=+   ]\"\nScreenPulseTable[4]  = \"[   -=+  ]\"\nScreenPulseTable[5]  = \"[    -=+ ]\"\nScreenPulseTable[6]  = \"[     -=+]\"\nScreenPulseTable[7]  = \"[     -+=]\"\nScreenPulseTable[8]  = \"[     +=-]\"\nScreenPulseTable[9]  = \"[    +=- ]\"\nScreenPulseTable[10] = \"[   +=-  ]\"\nScreenPulseTable[11] = \"[  +=-   ]\"\nScreenPulseTable[12] = \"[ +=-    ]\"\nScreenPulseTable[13] = \"[+=-     ]\"\nScreenPulseTable[14] = \"[=+-     ]\"\nScreenPulseTable[15] = \"[=-+     ]\"\nAnimationPulseIndex  = 1\n\n---\nfunction roundUpToPrecision(valueToRound)\n    if valueToRound == nil then return 0 end\n    local roundedValue = (math.ceil(valueToRound * PrecisionValue) / PrecisionValue)\n    return roundedValue\nend\n\n---\nfunction roundDownToPrecision(valueToRound)\n    if valueToRound == nil then return 0 end\n    local roundedValue = (math.floor(valueToRound * PrecisionValue) / PrecisionValue)\n    return roundedValue\nend\n\n---\nfunction screenPulseTick()\n    AnimationPulseIndex = AnimationPulseIndex + 1\n    if AnimationPulseIndex > #ScreenPulseTable then AnimationPulseIndex = 1 end\n    return ScreenPulseTable[AnimationPulseIndex]\nend\n\n---\nfunction splitStringBy(demark, inString)\n    local fields = {}\n    for field in inString:gmatch('([^' .. demark .. ']+)') do\n        fields[#fields + 1] = field\n    end\n    return fields\nend\n\n---\nfunction console(messageTxt)\n    system.print(WS2_Software.id .. \"::\" .. messageTxt)\nend\n\nfunction isABluePrint(itemID)\n    local CoreBlueprintID = 3823417343\n    return (itemID == CoreBlueprintID)\nend\n--- eof ---\n\n",
+        "filter": {
+          "args": [],
+          "signature": "onStart()",
+          "slotKey": "-5"
+        },
+        "key": "6"
+      }
+    ],
+    "methods": [],
+    "events": []
+  }

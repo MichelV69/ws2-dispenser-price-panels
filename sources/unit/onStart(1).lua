@@ -27,10 +27,22 @@ productDataTable[4].pricePerUnit = 230.32
 productDataTable[4].unitsPerSale = 100
 
 productDataTable[5].ID = 3823417343 -- Core Blueprint
-productDataTable[5].ProductName = "RPG-3400 Merchant Prince"
+productDataTable[5].ProductName = "E19-99-C Hybrid Atmo Space (HAS)"
 productDataTable[5].pricePerUnit = 330000.00
 productDataTable[5].unitsPerSale = 1
-productDataTable[5].altArtworkURL = "assets.prod.novaquark.com/145024/7f0acf62-e650-4136-997d-84cada7efe0a.png"
+productDataTable[5].altArtworkURL = ""
+
+productDataTable[6].ID = 3823417343 -- Core Blueprint
+productDataTable[6].ProductName = "E19-99-C Orbital Transfer Vehicle (OTV)"
+productDataTable[6].pricePerUnit = 330000.00
+productDataTable[6].unitsPerSale = 1
+productDataTable[6].altArtworkURL = ""
+
+productDataTable[7].ID = 3823417343 -- Core Blueprint
+productDataTable[7].ProductName = "RPG-3400 Merchant Prince"
+productDataTable[7].pricePerUnit = 330000.00
+productDataTable[7].unitsPerSale = 1
+productDataTable[7].altArtworkURL = "assets.prod.novaquark.com/145024/7f0acf62-e650-4136-997d-84cada7efe0a.png"
 
 --- # END of USER DATA Section
 --- # Changing anything else anywhere else will break this app

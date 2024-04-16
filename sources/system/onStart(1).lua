@@ -3,8 +3,8 @@ function boot(lcl_productData, lcl_userFontChoice, lcl_userFontSizeChoice, lcl_u
     WS2_Software = {}
     WS2_Software.id = "dispenser_price_board"
     WS2_Software.title = "Dispenser Price Board"
-    WS2_Software.version = "0.0.15"
-    WS2_Software.revision = "19 Feb 2024 14h15 AST"
+    WS2_Software.version = "0.0.16"
+    WS2_Software.revision = "16 Apr 2024 14h21 AST"
     WS2_Software.author = "Michel Vaillancourt <902pe_gaming@wolfstar.ca>"
 
     system.print("\n --------------- \n")
@@ -47,6 +47,7 @@ function boot(lcl_productData, lcl_userFontChoice, lcl_userFontSizeChoice, lcl_u
         console(WS2_Software.id .. ": found [" .. #ScreenList .. "] connected Screens.")
     end
 
+    -- -- TODO : add save / read logic for databases so many boards can share product logic.
     -- if #DatabankList == 0 then
     --    error "No databank connected.  Cannot continue."
     -- else
@@ -63,3 +64,4 @@ function boot(lcl_productData, lcl_userFontChoice, lcl_userFontSizeChoice, lcl_u
 end
 
 --- ### EOF system.onStart(1).lua ### ---
+
