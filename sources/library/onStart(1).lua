@@ -70,9 +70,9 @@ function console(messageTxt)
     system.print(WS2_Software.id .. "::" .. messageTxt)
 end
 
-function isABluePrint(itemID)
-    local CoreBlueprintID = 3823417343
-    return (itemID == CoreBlueprintID)
-end
+function AbbreviateName(long_name_string)
+    if long_name_string == nil then long_name_string = " " end
+    return long_name_string:gsub('Uncommon', 'UNC'):gsub('Advanced', 'ADV')
+end --- function AbbreviateName
 --- eof ---
 

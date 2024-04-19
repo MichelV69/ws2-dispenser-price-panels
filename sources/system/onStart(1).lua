@@ -63,5 +63,31 @@ function boot(lcl_productData, lcl_userFontChoice, lcl_userFontSizeChoice, lcl_u
     unit.setTimer("500ms", 0.5)
 end
 
+function validScreenConfigByName()
+    local test = false
+    test = (screenPosition and productID and
+        screenPosition and productID)
+
+    if test then
+        console("might have foundMatch")
+        console("#productDataTable:" .. #productDataTable)
+    end
+
+    return test
+end
+
+function mightBeBluePrint(productID)
+    local test = false
+    local CoreBlueprintID = 3823417343
+
+    test = (math.floor(productID) == CoreBlueprintID)
+    return test
+end
+
+function getWhichBluePrint(productID)
+    return productDataTable[productID].ProductName
+end
+
+-- # productDataTable[productID].altArtworkURL
 --- ### EOF system.onStart(1).lua ### ---
 
