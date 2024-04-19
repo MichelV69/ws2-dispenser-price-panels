@@ -3,7 +3,7 @@
 
 --- --- # screen presentation
 --- --- # feel free to change these values to something you prefer
-local userFontChoice = "default"  --export Set the screen display font
+local userFontChoice = "default"     --export Set the screen display font
 local userFontSizeChoice = "default" --export Set the screen display font size
 local userOrgLogoURL = "default"
 
@@ -26,19 +26,19 @@ productDataTable[4].ID = 1423148560 -- Sulfur Scrap
 productDataTable[4].pricePerUnit = 230.32
 productDataTable[4].unitsPerSale = 100
 
-productDataTable[5].ID = 3823417343 -- Core Blueprint
+productDataTable[5].ID = 3823417343.01 -- Core Blueprint
 productDataTable[5].ProductName = "E19-99-C Hybrid Atmo Space (HAS)"
 productDataTable[5].pricePerUnit = 330000.00
 productDataTable[5].unitsPerSale = 1
 productDataTable[5].altArtworkURL = ""
-
-productDataTable[6].ID = 3823417343 -- Core Blueprint
+--
+productDataTable[6].ID = 3823417343.02 -- Core Blueprint
 productDataTable[6].ProductName = "E19-99-C Orbital Transfer Vehicle (OTV)"
 productDataTable[6].pricePerUnit = 330000.00
 productDataTable[6].unitsPerSale = 1
 productDataTable[6].altArtworkURL = ""
-
-productDataTable[7].ID = 3823417343 -- Core Blueprint
+--
+productDataTable[7].ID = 3823417343.03 -- Core Blueprint
 productDataTable[7].ProductName = "RPG-3400 Merchant Prince"
 productDataTable[7].pricePerUnit = 330000.00
 productDataTable[7].unitsPerSale = 1
@@ -48,4 +48,3 @@ productDataTable[7].altArtworkURL = "assets.prod.novaquark.com/145024/7f0acf62-e
 --- # Changing anything else anywhere else will break this app
 boot(productDataTable, userFontChoice, userFontSizeChoice, userOrgLogoURL)
 --- eof ---
-
