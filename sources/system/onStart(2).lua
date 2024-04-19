@@ -25,7 +25,7 @@ function UpdateScreens(screenListTable, productDataTable)
         local foundMatch = false
         local productDataRecord = {}
 
-        if validScreenConfigByName
+        if validScreenConfigByName then
             for i = 1, #productDataTable do
                 if mightBeBluePrint(tonumber(productID)) then
                     productID = getWhichBluePrint(tonumber(productID))

@@ -1,4 +1,4 @@
--- library.onStart(4)
+-- library.onStart(3)
 --[[ TimeScript by Jericho (github.com/Jericho1060) ]]
 --[[ snagged from LocuraDU (https://github.com/LocuraDU) ]]
 function EpochTime()

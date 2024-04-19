@@ -4,7 +4,7 @@ function boot(lcl_productData, lcl_userFontChoice, lcl_userFontSizeChoice, lcl_u
     WS2_Software.id = "dispenser_price_board"
     WS2_Software.title = "Dispenser Price Board"
     WS2_Software.version = "0.0.17"
-    WS2_Software.revision = "19 Apr 2024 17h02 AST"
+    WS2_Software.revision = "19 Apr 2024 18h00 AST"
     WS2_Software.author = "Michel Vaillancourt <902pe_gaming@wolfstar.ca>"
 
     system.print("\n --------------- \n")

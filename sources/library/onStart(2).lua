@@ -157,7 +157,7 @@ function RenderScreen(thisScreen, screenPosition, productDataRecord, itemDataTab
 
     --- format data for display (5)
     local isABluePrint_txt = "local lcl_isABluePrint = 0"
-    if isABluePrint(productDataRecord.ID) then
+    if mightBeBluePrint(productDataRecord.ID) then
         isABluePrint_txt = "local lcl_isABluePrint = 1"
     end
     ScreenTable[5] = isABluePrint_txt .. [[

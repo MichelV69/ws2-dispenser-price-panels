@@ -1,12 +1,16 @@
 -- library.onStart(1)
 -- define support functions and globals for use elsewhere
 
-productDataTable          = {}
-productDataTable[1]       = {}
-productDataTable[2]       = {}
-productDataTable[3]       = {}
-productDataTable[4]       = {}
-productDataTable[5]       = {}
+productDataTable     = {}
+productDataTable[1]  = {}
+productDataTable[2]  = {}
+productDataTable[3]  = {}
+productDataTable[4]  = {}
+productDataTable[5]  = {}
+productDataTable[6]  = {}
+productDataTable[7]  = {}
+productDataTable[8]  = {}
+productDataTable[9]  = {}
 
 PrecisionDigits      = 2
 PrecisionValue       = 10 ^ PrecisionDigits
